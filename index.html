@@ -1,15 +1,50 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="baseApp">
   <head>
     <script src="public/libs/angular/angular.js"></script>
+    <script>
+
+      var baseApp = angular.module("baseApp", [])
+
+      baseApp.controller('BaseAppController', ['$scope', '$http', function($scope, $http) {
+
+        $http.get('/api/baseApp').
+        success(function(data, status, headers, config) {
+          $scope.names = data
+        })
+
+        $scope.baseAppCreate(){
+
+        }
+/*
+        $scope.names = [
+        {'name': "Michael"},
+        {'name': "Steve"},
+        {'name': "John"},
+        {'name': "Stacy"},
+        ]
+
+*/
+      }])
+
+    </script>
+
   </head>
 
-  <body>
+  <body ng-controller="BaseAppController">
     <div>
       <label>Name:</label>
-      <input type="text" ng-model="yourName" placeholder="Enter your name here">
+      <input type="text" ng-model="yourName" placeholder="Enter your name here">  
+      <input type="button" ng-click="baseAppCreate()" value="Add">
+ 
       <hr>
       <h1>Hello {{ yourName }}!</h1>
+
+      <ul>
+        <li ng-repeat="name in names">
+          <span>{{name.name}}</span>
+        </li>
+      </ul>
     </div>
   </body>
 </html>
